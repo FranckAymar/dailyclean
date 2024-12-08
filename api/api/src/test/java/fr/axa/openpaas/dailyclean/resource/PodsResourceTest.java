@@ -2,6 +2,8 @@ package fr.axa.openpaas.dailyclean.resource;
 
 import fr.axa.openpaas.dailyclean.service.KubernetesArgument;
 import fr.axa.openpaas.dailyclean.util.KubernetesUtils;
+import io.fabric8.kubernetes.api.model.Container;
+import io.fabric8.kubernetes.api.model.batch.v1.CronJob;
 import io.fabric8.kubernetes.api.model.batch.v1.Job;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.server.mock.KubernetesServer;
@@ -15,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import java.io.InputStream;
 import java.util.List;
 
+import static fr.axa.openpaas.dailyclean.service.KubernetesArgument.STOP;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

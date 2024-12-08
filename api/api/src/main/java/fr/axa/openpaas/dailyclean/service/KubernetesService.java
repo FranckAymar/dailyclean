@@ -41,6 +41,8 @@ public class KubernetesService {
     @ConfigProperty(name = "service.deployment.label.dailyclean")
     String dailycleanLabelName;
 
+    protected static final String CRON_18_00 = "0 18 * * *";
+
     private final KubernetesClient kubernetesClient;
 
     public KubernetesService(final KubernetesClient kubernetesClient) {
@@ -149,13 +151,19 @@ public class KubernetesService {
         }
     }
 
+    public void createDefaultStopCronJobIfNotExist() {
+        CronJob stop = getCronJob(STOP);
+        if(stop == null) {
+            createCronJob(CRON_18_00, STOP);
+        }
+    }
+
     private boolean isUpdatingCronJobNeeded(CronJob cronJob) {
-        boolean res = false;
         if(cronJob != null) {
             String cronImageName = getContainerImageName(cronJob);
-            res = !imgName.equals(cronImageName);
+           return  !imgName.equals(cronImageName);
         }
-        return res;
+        return false;
     }
 
     private CronJob getCronJob(KubernetesArgument argument) {
